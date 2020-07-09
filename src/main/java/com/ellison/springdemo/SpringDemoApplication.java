@@ -1,0 +1,19 @@
+package com.ellison.springdemo;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
+
+/**
+ * @author ellisonpei
+ */
+@MapperScan(basePackages = {"com.ellison.springdemo.mapper"},annotationClass = Component.class)
+@SpringBootApplication
+public class SpringDemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringDemoApplication.class, args);
+    }
+
+
+}
