@@ -30,6 +30,13 @@ public class TestController {
         return areaService.queryAreaFromDB(param);
     }
 
+
+    /**
+     *  事务测试接口
+     * @param areas
+     * @param goods
+     * @return
+     */
     @RequestMapping("/add/{areas}/{goods}")
     public String add(@PathVariable(value = "areas", required = true)String areas,
                       @PathVariable(value = "goods", required = true)String goods){
