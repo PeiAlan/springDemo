@@ -42,6 +42,13 @@ public class MvcController {
     @ResponseBody
     public String test2(@PathVariable(value = "name", required = true) String name,
                         @PathVariable(value = "age", required = true) int age){
+//        int a = 15 ;
+//        a |= a >>> 1;
+//        a |= a >>> 2;
+//        a |= a >>> 4;
+//        a |= a >>> 8;
+//        a |= a >>> 16;
+//        int n = (a < 0) ? 1 : (a >= (1 << 30)) ? (1 << 30) : a + 1;
         return "name: "+ name + "\nage: " + age;
     }
 

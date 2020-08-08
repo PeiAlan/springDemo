@@ -35,7 +35,7 @@ public class CommonServiceImpl implements CommonService {
 
 
     //开启了事务
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
     public void transation(ConsultConfigArea area, ZgGoods zgGoods) {
         try {
