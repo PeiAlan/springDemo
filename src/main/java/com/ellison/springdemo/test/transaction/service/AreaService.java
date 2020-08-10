@@ -1,6 +1,6 @@
 package com.ellison.springdemo.test.transaction.service;
 
-import com.ellison.springdemo.pojo.ConsultConfigArea;
+import com.ellison.springdemo.entity.ConsultConfigArea;
 
 import java.util.List;
 import java.util.Map;

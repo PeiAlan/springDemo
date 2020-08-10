@@ -1,8 +1,9 @@
-package com.ellison.springdemo.cache.service;
+package com.ellison.springdemo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ellison.springdemo.mapper.CommonMapper;
-import com.ellison.springdemo.pojo.ConsultConfigArea;
+import com.ellison.springdemo.entity.ConsultConfigArea;
+import com.ellison.springdemo.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,10 +25,18 @@ public class CacheServiceImpl implements CacheService {
         return JSONObject.toJSONString(areas);
     }
 
+    @Cacheable(cacheNames = "redisCache",key = "'goodsByState:' + #state")
+    @Override
+    public List<ConsultConfigArea> queryAreaBystate(String state) {
+        System.out.println("======CacheServiceImpl.queryAreaBystate");
+        List<ConsultConfigArea> areas = commonMapper.queryAreaBystate(state);
+        return areas;
+    }
+
     @CachePut(cacheNames = "redisCache",key = "'ellison' + #id")
     @Override
     public String putCache(String id) {
-        System.out.println("======CacheServiceImpl.queryData");
+        System.out.println("======CacheServiceImpl.putCache");
         List<ConsultConfigArea> areas = commonMapper.queryAreaById(id);
         return JSONObject.toJSONString(areas);
     }

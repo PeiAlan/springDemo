@@ -1,4 +1,4 @@
-package com.ellison.springdemo.pojo;
+package com.ellison.springdemo.entity;
 
 import lombok.Data;
 

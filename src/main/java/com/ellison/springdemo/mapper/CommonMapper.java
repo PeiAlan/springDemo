@@ -1,8 +1,8 @@
 package com.ellison.springdemo.mapper;
 
-import com.ellison.springdemo.pojo.ConsultConfigArea;
-import com.ellison.springdemo.pojo.ZgGoods;
-import com.ellison.springdemo.pojo.ZgTicket;
+import com.ellison.springdemo.entity.ConsultConfigArea;
+import com.ellison.springdemo.entity.ZgGoods;
+import com.ellison.springdemo.entity.ZgTicket;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -24,6 +24,9 @@ public interface CommonMapper {
 
     @Select("select * from consult_configarea where areaCode=#{areaCode}")
     List<ConsultConfigArea> queryAreaById(String areaCode);
+
+    @Select("select * from consult_configarea where state=#{state}")
+    List<ConsultConfigArea> queryAreaBystate(String state);
 
     @Insert("insert into consult_configarea(AREACODE,AREANAME,STATE) values(#{areaCode},#{areaName},#{state})")
     int addArea(ConsultConfigArea area);

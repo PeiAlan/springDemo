@@ -1,7 +1,7 @@
 package com.ellison.springdemo.test.transaction.service.impl;
 
 import com.ellison.springdemo.mapper.CommonMapper;
-import com.ellison.springdemo.pojo.ZgGoods;
+import com.ellison.springdemo.entity.ZgGoods;
 import com.ellison.springdemo.test.transaction.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

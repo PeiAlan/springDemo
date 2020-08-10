@@ -1,7 +1,7 @@
 package com.ellison.springdemo.controller;
 
-import com.ellison.springdemo.pojo.ConsultConfigArea;
-import com.ellison.springdemo.pojo.ZgGoods;
+import com.ellison.springdemo.entity.ConsultConfigArea;
+import com.ellison.springdemo.entity.ZgGoods;
 import com.ellison.springdemo.test.transaction.service.AreaService;
 import com.ellison.springdemo.test.transaction.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.ellison.springdemo.cache.config;
+package com.ellison.springdemo.config.cache;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

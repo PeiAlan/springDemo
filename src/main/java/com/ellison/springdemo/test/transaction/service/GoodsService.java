@@ -1,6 +1,6 @@
 package com.ellison.springdemo.test.transaction.service;
 
-import com.ellison.springdemo.pojo.ZgGoods;
+import com.ellison.springdemo.entity.ZgGoods;
 
 import java.util.List;
 

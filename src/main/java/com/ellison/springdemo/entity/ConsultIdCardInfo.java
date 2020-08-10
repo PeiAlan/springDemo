@@ -1,4 +1,4 @@
-package com.ellison.springdemo.pojo;
+package com.ellison.springdemo.entity;
 
 public class ConsultIdCardInfo {
     public Integer innerId;

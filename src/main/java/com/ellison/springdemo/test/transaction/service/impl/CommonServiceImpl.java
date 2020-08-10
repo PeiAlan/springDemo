@@ -1,9 +1,9 @@
 package com.ellison.springdemo.test.transaction.service.impl;
 
 import com.ellison.springdemo.mapper.CommonMapper;
-import com.ellison.springdemo.pojo.ConsultConfigArea;
-import com.ellison.springdemo.pojo.ZgGoods;
-import com.ellison.springdemo.pojo.ZgTicket;
+import com.ellison.springdemo.entity.ConsultConfigArea;
+import com.ellison.springdemo.entity.ZgGoods;
+import com.ellison.springdemo.entity.ZgTicket;
 import com.ellison.springdemo.test.transaction.service.AreaService;
 import com.ellison.springdemo.test.transaction.service.CommonService;
 import com.ellison.springdemo.test.transaction.service.GoodsService;

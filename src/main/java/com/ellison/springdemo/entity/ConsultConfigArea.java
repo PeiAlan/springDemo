@@ -1,4 +1,4 @@
-package com.ellison.springdemo.pojo;
+package com.ellison.springdemo.entity;
 
 public class ConsultConfigArea {
     public String areaCode;
@@ -29,5 +29,14 @@ public class ConsultConfigArea {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "ConsultConfigArea{" +
+                "areaCode='" + areaCode + '\'' +
+                ", areaName='" + areaName + '\'' +
+                ", state='" + state + '\'' +
+                '}';
     }
 }

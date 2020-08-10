@@ -1,4 +1,4 @@
-package com.ellison.springdemo.cache.config;
+package com.ellison.springdemo.config.cache;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.cache.Cache;

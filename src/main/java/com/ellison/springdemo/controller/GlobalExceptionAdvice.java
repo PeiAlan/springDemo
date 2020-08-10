@@ -1,5 +1,6 @@
 package com.ellison.springdemo.controller;
 
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -24,6 +25,12 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(ArithmeticException.class)
     public String exception3(ArithmeticException e){
         System.out.println(e.getMessage());
+        return "error";
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public String exception4(MissingServletRequestParameterException e){
+        System.out.println("缺少参数：请输入参数" + e.getParameterName() + "的值");
         return "error";
     }
 }

@@ -19,6 +19,18 @@
     </properties>
 
     <dependencies>
+<!--        Google Guava 基本工具-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.1-jre</version>
+        </dependency>
+<!--        集成AMQP-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+<!--        前端模板引擎-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
 <!--            <artifactId>spring-boot-starter-freemarker</artifactId>-->
@@ -33,13 +45,13 @@
             <version>1.9.22</version>
         </dependency>
 
-        <!--        mongodb-->
+<!--        缓存 mongodb-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
 <!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
 <!--        </dependency>-->
 
-<!--        redis-->
+<!--        缓存 redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

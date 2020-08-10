@@ -1,7 +1,7 @@
 package com.ellison.springdemo.test.transaction.service;
 
-import com.ellison.springdemo.pojo.ConsultConfigArea;
-import com.ellison.springdemo.pojo.ZgGoods;
+import com.ellison.springdemo.entity.ConsultConfigArea;
+import com.ellison.springdemo.entity.ZgGoods;
 
 /**
  * 事务逻辑

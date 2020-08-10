@@ -1,7 +1,7 @@
 package com.ellison.springdemo.test.transaction.service.impl;
 
 import com.ellison.springdemo.mapper.CommonMapper;
-import com.ellison.springdemo.pojo.ConsultConfigArea;
+import com.ellison.springdemo.entity.ConsultConfigArea;
 import com.ellison.springdemo.test.transaction.service.AreaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +49,13 @@ public class AreaServiceImpl implements AreaService {
     }
 
 
-    @Transactional(propagation = Propagation.NESTED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public int addArea(ConsultConfigArea area) {
         int i = commonMapper.addArea(area);
+        if (i <= 0){
+            logger.info("数据插入失败");
+        }
 //        if(true) {
 //            throw new RuntimeException("yic");
 //        }

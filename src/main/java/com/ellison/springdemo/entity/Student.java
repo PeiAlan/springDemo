@@ -1,4 +1,4 @@
-package com.ellison.springdemo.bean;
+package com.ellison.springdemo.entity;
 
 /**
  * @author ellisonpei

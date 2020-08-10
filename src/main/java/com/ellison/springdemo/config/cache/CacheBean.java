@@ -1,4 +1,4 @@
-package com.ellison.springdemo.cache.config;
+package com.ellison.springdemo.config.cache;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
