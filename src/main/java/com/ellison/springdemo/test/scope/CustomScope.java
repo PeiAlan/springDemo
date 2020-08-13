@@ -1,4 +1,4 @@
-package com.xiangxue.jack.scope;
+package com.ellison.springdemo.test.scope;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;

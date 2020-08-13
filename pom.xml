@@ -11,19 +11,30 @@
     <groupId>com.ellison</groupId>
     <artifactId>springdemo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springdemo</name>
+    <name>springDemo</name>
     <description>Demo project for Spring or Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <mybatis.version>2.1.3</mybatis.version>
+        <guava.version>27.1-jre</guava.version>
+        <nekohtml.version>1.9.22</nekohtml.version>
+        <jedis.version>3.1.0</jedis.version>
     </properties>
 
     <dependencies>
+
+<!--        Mybatis工具-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
 <!--        Google Guava 基本工具-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>27.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
 <!--        集成AMQP-->
         <dependency>
@@ -42,7 +53,7 @@
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
-            <version>1.9.22</version>
+            <version>${nekohtml.version}</version>
         </dependency>
 
 <!--        缓存 mongodb-->
@@ -59,7 +70,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.1.0</version>
+            <version>${jedis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -83,11 +94,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>1.3.1</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

@@ -1,4 +1,4 @@
-package com.xiangxue.jack.scope;
+package com.ellison.springdemo.test.scope;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

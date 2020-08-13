@@ -4,8 +4,8 @@ import com.ellison.springdemo.entity.User;
 import com.ellison.springdemo.entity.dto.UserInputDto;
 import com.ellison.springdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +23,7 @@ public class ApiController {
     private UserService userService;
 
     @PostMapping("/add")
-    public User addUser(@RequestBody UserInputDto userInputDto){
+    public User addUser(@Validated UserInputDto userInputDto){
         User user = userInputDto.convertToUser();
         return userService.addUser(user);
     }

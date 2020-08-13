@@ -1,4 +1,4 @@
-package com.xiangxue.jack.scope;
+package com.ellison.springdemo.test.scope;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        beanFactory.registerScope("jackScope",new CustomScope());
+        beanFactory.registerScope("ellisonScope",new CustomScope());
     }
 }
