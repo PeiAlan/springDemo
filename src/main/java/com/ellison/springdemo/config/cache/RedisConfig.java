@@ -24,6 +24,9 @@ public class RedisConfig {
     @Value("${spring.redis.testOnBorrow}")
     private Boolean testOnBorrow;
 
+    @Value("${spring.redis.testOnCreate}")
+    private Boolean testOnCreate;
+
     @Value("${spring.redis.host}")
     private String hostName;
 
@@ -36,6 +39,7 @@ public class RedisConfig {
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         jedisPoolConfig.setTestOnBorrow(testOnBorrow);
+        jedisPoolConfig.setTestOnCreate(testOnCreate);
         return jedisPoolConfig;
     }
 

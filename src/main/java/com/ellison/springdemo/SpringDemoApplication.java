@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 @SpringBootApplication
 public class SpringDemoApplication {
     public static void main(String[] args) {
+
+//        SpringApplication springApplication = new SpringApplication(SpringDemoApplication.class);
+//        springApplication.addInitializers(new ApplicationContextInitializerTest());
+
         SpringApplication.run(SpringDemoApplication.class, args);
     }
 
