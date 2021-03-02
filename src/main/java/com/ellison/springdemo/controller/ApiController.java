@@ -3,11 +3,9 @@ package com.ellison.springdemo.controller;
 import com.ellison.springdemo.entity.User;
 import com.ellison.springdemo.entity.dto.UserInputDto;
 import com.ellison.springdemo.service.UserService;
+import com.fasterxml.jackson.databind.Module;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>TODO</p>
@@ -23,8 +21,21 @@ public class ApiController {
     private UserService userService;
 
     @PostMapping("/add")
-    public User addUser(@Validated UserInputDto userInputDto){
+    public User addUser(UserInputDto userInputDto) {
         User user = userInputDto.convertToUser();
+        return userService.addUser(user);
+    }
+
+    @GetMapping("/get")
+    public String get(@RequestParam(value = "id") Integer id) {
+        Module module = null;
+        return module.getModuleName() + id;
+    }
+
+    @PostMapping("/param")
+    public User paramTest(@RequestParam(value = "id") Integer id) {
+        User user = new User();
+        user.setUid(id);
         return userService.addUser(user);
     }
 

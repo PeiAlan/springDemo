@@ -49,7 +49,7 @@ public class AreaServiceImpl implements AreaService {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     @Override
     public int addArea(ConsultConfigArea area) {
         int i = commonMapper.addArea(area);
@@ -59,6 +59,16 @@ public class AreaServiceImpl implements AreaService {
 //        if(true) {
 //            throw new RuntimeException("yic");
 //        }
+        return i;
+    }
+
+//    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int updateArea(ConsultConfigArea area) {
+        int i = commonMapper.updateArea(area);
+        if (i <= 0){
+            logger.info("数据插入失败");
+        }
         return i;
     }
 }

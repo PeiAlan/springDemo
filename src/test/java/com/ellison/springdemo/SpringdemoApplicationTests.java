@@ -2,6 +2,8 @@ package com.ellison.springdemo;
 
 import com.ellison.springdemo.service.CacheService;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
@@ -21,6 +23,14 @@ class SpringdemoApplicationTests {
         cache.put("cacheName","redisCache");
         Cache.ValueWrapper cacheName = cache.get("cacheName");
         System.out.println(cacheName.get());
+    }
+    @Test
+    public void test2(){
+        //Chrome驱动下载地址（MacOS）https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_mac64.zip
+        //设置驱动环境变量 '/Users/ellisonpei/Desktop/apache/chromedriver_mac64/chromedriver'是我所下载的Chrome驱动的地址
+        System.setProperty("webdriver.chrome.driver","/Users/ellisonpei/Desktop/apache/chromedriver_mac64/chromedriver");
+        WebDriver webDriver = new ChromeDriver();
+        webDriver.get("https://www.gitee.com");
     }
 
 }

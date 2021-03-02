@@ -31,6 +31,9 @@ public interface CommonMapper {
     @Insert("insert into consult_configarea(AREACODE,AREANAME,STATE) values(#{areaCode},#{areaName},#{state})")
     int addArea(ConsultConfigArea area);
 
+    @Insert("update consult_configarea set areaName = #{areaName} where areaCode = #{areaCode}")
+    int updateArea(ConsultConfigArea area);
+
     @Insert("insert into zg_goods (goodCode, goodName, count\n" +
             "\t\t)\n" +
             "\t\tvalues (#{goodCode,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR},\n" +

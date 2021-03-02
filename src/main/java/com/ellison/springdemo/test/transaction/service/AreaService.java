@@ -15,4 +15,7 @@ public interface AreaService {
 
     int addArea(ConsultConfigArea area);
 
+    int updateArea(ConsultConfigArea area);
+
+
 }
