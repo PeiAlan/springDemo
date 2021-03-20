@@ -6,6 +6,7 @@ import com.ellison.springdemo.entity.test.Response;
 import com.ellison.springdemo.entity.test.ResponseParam;
 import com.ellison.springdemo.test.transaction.service.AreaService;
 import com.ellison.springdemo.test.transaction.service.CommonService;
+import com.ellison.springdemo.test.transaction.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,8 @@ public class TestController {
     private AreaService areaService;
     @Autowired
     private CommonService commonService;
+    @Autowired
+    private GoodsService goodsService;
 
 
     @RequestMapping("/query1")
@@ -41,17 +44,19 @@ public class TestController {
     @RequestMapping("/add/{areas}/{goods}")
     public String add(@PathVariable(value = "areas", required = true)String areas,
                       @PathVariable(value = "goods", required = true)String goods){
-        ConsultConfigArea area = new ConsultConfigArea();
-        area.setAreaCode(areas);
-        area.setAreaName(areas);
-        area.setState("1");
+//        ConsultConfigArea area = new ConsultConfigArea();
+//        area.setAreaCode(areas);
+//        area.setAreaName(areas);
+//        area.setState("1");
 
         ZgGoods zgGoods = new ZgGoods();
         zgGoods.setGoodCode(goods);
         zgGoods.setGoodName(goods);
         zgGoods.setCount(100);
 
-        commonService.transation(area,zgGoods);
+        goodsService.handleGoods(zgGoods);
+
+//        commonService.transation(area,zgGoods);
         return "1111";
     }
 

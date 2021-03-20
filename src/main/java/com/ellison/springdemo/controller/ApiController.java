@@ -5,7 +5,10 @@ import com.ellison.springdemo.entity.dto.UserInputDto;
 import com.ellison.springdemo.service.UserService;
 import com.fasterxml.jackson.databind.Module;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>TODO</p>
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2020/8/9 21:13
  **/
 @RestController
-@RequestMapping("api/user/")
+@org.springframework.web.bind.annotation.RequestMapping("api/user/")
 public class ApiController {
 
     @Autowired

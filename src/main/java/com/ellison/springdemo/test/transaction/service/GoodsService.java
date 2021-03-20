@@ -9,4 +9,6 @@ public interface GoodsService {
     void addGoods(ZgGoods zgGoods);
 
     List<ZgGoods> queryAll();
+
+    void handleGoods(ZgGoods zgGoods);
 }
