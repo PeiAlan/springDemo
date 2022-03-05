@@ -1,0 +1,475 @@
+---
+title: docker安装与使用
+date: 2020-05-20 19:58:56
+categories: [docker]
+tags: [docker]
+
+---
+
+centOS7安装docker
+
+docker镜像加速地址：https://www.cnblogs.com/weifeng1463/p/7468391.html。
+
+```bash
+#查看你当前的内核版本
+uname -r
+#确保 yum 包更新到最新。
+sudo yum update
+#卸载旧版本
+sudo yum remove docker  docker-common docker-selinux docker-engine
+#安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+#设置yum源
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#可以查看所有仓库中所有docker版本，并选择特定版本安装
+yum list docker-ce --showduplicates | sort -r
+安装docker
+$ sudo yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版17.12.0
+$ sudo yum install <FQPN>  # 例如：sudo yum install docker-ce-17.12.0.ce
+#启动并加入开机启动
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+#检查是否安装成功
+docker version
+```
+
+# centOS 7 安装docker最新版本
+
+centos 7 默认安装的都是docker的低版本。如何安装最新版本？
+
+1、首先备份你的容器个镜像
+
+```bash
+# 备份镜像：
+  	docker save > _image.war 你的镜像ID
+# 导入镜像：
+	docker load --input _image.tar 或 docker load < _image.tar
+# 容器备份：
+	docker export > _container.tar 你的容器id
+# 容器的导入：
+	docker import _container.tar  mysql:v1         （其中v1为tag，也可理解为自定义版本名称）
+```
+
+#### 这里附带docker镜像无法删除的问题：
+
+删除时报错：Error: No such image
+
+```bash
+# 切换到root用户然后：
+
+$ systemctl stop docker
+$ rm -rf /var/lib/docker
+$ systemctl start docker
+# 到这里就会发现镜像已经删除干净。
+```
+
+
+
+2、删除dockers所有安装文件
+
+```bash
+# 查看已安装的docker版本
+yum list installed | grep docker
+# 删除已安装的docker版本
+yum -y remove docker*
+#  安装国内阿里云镜像
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+# 查看版本
+sudo yum list docker-ce --showduplicates
+# 安装最新版本的docker
+sudo yum install docker-ce
+
+# 启动docker设置Docker开机启动
+sudo systemctl start docker
+sudo chkconfig docker on   （systemctl enable docker.service）
+
+```
+
+PS： 本次docker升级，我发现一个很奇妙的现象。我在之前备份完images 和 container后，我删除了之前的docker，重新升级后，发现自己原来的images和container全都在，就直接启动了!hahah 顺道启动了所有
+
+```bash
+# 启动所有的容器命令
+docker start $(docker ps -a | awk '{ print $1}' | tail -n +2)
+# 关闭所有的容器命令
+docker stop $(docker ps -a | awk '{ print $1}' | tail -n +2)
+# 删除所有的容器命令
+docker rm $(docker ps -a | awk '{ print $1}' | tail -n +2)
+# 删除所有的镜像
+docker rmi $(docker images | awk '{print $3}' |tail -n +2)
+```
+
+
+
+# docker的卸载
+
+1、列出docker安装过的相关包：
+
+sudo yum list installed | grep docker
+
+2、删除相关安装包
+
+yum -y remove docker-ce-cli.x86_64
+
+3、删除相关镜像与容器
+
+rm -rf /var/lib/docker
+
+```bash
+# centOs7 安装最新的docker-ce版：
+yum install docker -y
+# 安装指定的dcker版本，需要如下几步：
+$ sudo yum install -y yum-utils
+$ sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+$ sudo yum install docker-ce
+# 配置启动
+$ sudo service docker start
+$ sudo chkconfig docker on
+# 如果提示container-selinux依赖问题，先安装ce-17.03匹配版本，再去执行第3步即可：
+yum localinstall https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.3.ce-1.el7.noarch.rpm
+# 4、启动docker，并设置为开机自启
+systemctl start docker && systemctl enable docker
+```
+
+# Docker命令
+
+docker命令大全：https://blog.csdn.net/lemontree1945/article/details/80496368
+
+docker查看所有的容器：
+
+```bash
+#查看已存在的所有容器
+$ docker ps -a
+# 查看整在运行的容器
+$ docker ps
+# 从云端拉取镜像
+$ docker pull
+# 查看本地镜像
+$ docker images
+# 运行镜像
+$ docker run -d -p {XXXX:XXXX] --name [yourName] [你的镜像ID或者镜像name]
+	#例如：docker run -d -p 6379:6379 --name myredis tnxkcso1.mirror.aliyuncs.com/library/redis
+# 启动容器
+$ docker start
+# 停止容器
+$ docker stop
+```
+
+docker镜像打包操作：https://blog.csdn.net/qq_26235847/article/details/84635250
+
+# docker将容器打包成镜像
+
+docker commit :从容器创建一个新的镜像。
+	docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]
+OPTIONS说明：
+	-a :提交的镜像作者；
+	-c :使用Dockerfile指令来创建镜像；
+	-m :提交时的说明文字；
+	-p :在commit时，将容器暂停。
+
+实例：
+
+docker commit -m "description" -a "author_info"  （容器id或者名称）“镜像的仓库名”
+
+
+
+
+
+# docker修改容器内时间
+
+进入宿主机查看容器 docker ps
+
+进入容器 docker exec -it “容器名“  /bin/bash
+
+查询时间 date -R 发现时区为0时区
+
+Tue, 21 Apr 2020 07:23:05 +0000
+
+**解决办法：**
+
+**1、复制相应的时区文件，替换系统时区文件；**
+
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+有的容器基础镜像是有这个文件的，直接拷贝就可以，如果不能拷贝，则是因为创建镜像时依赖的基础镜像 运行的容器没有这两个文件，使用下面的办法
+
+**2、创建文件夹**
+
+mkdir -p /usr/share/zoneinfo/Asia
+
+**3、回到宿主机，复制宿主机里的文件到容器中**
+
+docker cp /usr/share/zoneinfo/Asia/Shanghai 容器ID或容器名:/usr/share/zoneinfo/Asia
+
+**4、进入容器**
+
+docker exec -it 容器Id或容器名 bash
+
+执行命令 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+**5、验证date**
+
+bash-5.0# date
+Tue Sep 17 13:54:25 CST 2019
+
+# Dockerfile的使用
+
+ ---------Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义镜像
+
+**基础镜像、维护者信息、操作指令、容器CMD**
+
+dockerfile的指令分为两种：构建指令和设置指令。
+**构建命令**：用于构建镜像的时候执行的，不会在该镜像上的容器里执行。
+
+**设置命令**：用于设image的属性，将会在运行的容器里执行。
+
+![1572164083911](F:\学习资料\笔记\MaYun1\respository\图片\1572164083911.png)
+
+**CMD** **VS** **ENTRYPOINT**
+
+ --------- cmd给出的是一个容器的默认的可执行体
+
+ --------- entrypoint才是正统地用于定义容器启动以后的执行体的
+
+**CMD**---多个cmd最后一个生效
+
+-----shell用法： CMD echo "hello cmd!“
+
+----- exec用法：CMD ["/bin/bash", "-c", "echo 'hello cmd!'"]
+
+**ENTRYPOINT**---容器入口 --- 多个entrypoint只有最后一个生效
+
+-----shell用法（不接受参数，不推荐）： CMD ["p in cmd"]
+
+​																	 ENTRYPOINT echo
+
+----- exec用法：CMD ["p in cmd"]
+
+ 						ENTRYPOINT ["echo"]
+
+![1572164252534](F:\学习资料\笔记\MaYun1\respository\图片\1572164252534.png)
+
+```tex
+Dockerfile指令集
+1 FROM
+第一条指令必须为FROM指令，用于指定基础镜像。
+2 MAINTAINER
+指定维护者信息。
+3 RUN
+会在shell终端运行命令。
+4 EXPOSE
+格式为 EXPOSE [ ...],声明容器需要暴露的端口号。
+-----------镜像启动可以通过 –P 或 -p 进行端口映射的绑定。
+5 ENV
+指定一个环境变量，可以被后续的RUN引用，并且在容器中记录该环境变量。
+6 ADD
+该命令将复制指定的到容器中的。
+-------其中可以是Dockerfile所在目录的一个相对路径；也可以是tar文件（自动解压）。
+7 VOLUME
+格式为 VOLUME [path]。
+--------创建一个可以从本地主机或其他容器挂载点，一般用来存放需要保持的数据。
+8 USER
+指定运行容器时的用户名，后续的RUN也会指定该用户。
+9 WORKDIR
+指定工作空间，后续命令都在此目录下执行。
+10 CMD
+11 ENTRYPOINT
+```
+
+关于Dockerfile更详细的解释，见博客：https://blog.csdn.net/qq_29999343/article/details/78318397
+
+# 详细的Docker总结
+
+博客地址：https://blog.csdn.net/deng624796905/article/details/86493330
+
+# 配置自己的阿里云Docker镜像加速
+
+![1567475941567](F:\学习资料\笔记\MaYun1\respository\图片\1567475941567.png)
+
+```bash
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://9sdgml3e.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+# docker加速安装redis
+
+配置docker镜像加速：
+
+```bash
+$ vim /etc/docker/daemon.json
+#在此文件中加入：
+{
+  "registry-mirrors": ["https://tnxkcso1.mirror.aliyuncs.com"]
+}
+#（若文件没有，就创建一个）
+```
+
+利用阿里镜像加速，下载Redis镜像
+
+```bash
+$ docker pull tnxkcso1.mirror.aliyuncs.com/library/redis
+#查看下载的镜像
+$ docker images
+#运行镜像 命名并映射端口(-d 后台启动 -p 6379:6379 表示redis端口映射容器端口)
+$ docker run -d -p 6379:6379 --name myredis tnxkcso1.mirror.aliyuncs.com/library/redis
+
+$ docker ps (查看运行中的镜像)
+
+```
+
+
+
+# Docker 安装Nginx
+
+```bash
+[root@peiyanbing bing]# docker pull nginx
+
+[root@peiyanbing bing]# docker run -d -p 80:80 --name mynginx docker.io/nginx
+
+[root@peiyanbing bing]# netstat -anp | grep 80  #查看端口占用情况
+
+# 挂载文件
+
+/etc/nginx/     /etc/nginx/conf.d   /var/log/nginx  /usr/share/nginx/html
+
+# 挂载之前 要先将容器内部的文件夹copy到宿主机上
+###########html文件夹
+docker cp mynginx:/usr/share/nginx/html /home/nginx_design/
+###########默认配置 default.conf
+docker cp mynginx:/etc/nginx/conf.d /home/nginx_design/
+###########配置文件
+docker cp mynginx:/etc/nginx/nginx.conf /home/nginx_design/conf
+###########日志
+docker cp mynginx:/var/log/nginx/access.log /home/nginx_design/logs/
+docker cp mynginx:/var/log/nginx/error.log /home/nginx_design/logs/
+（切记一定要是cp 之后启动，否则容器无法启动）
+#之后再run 镜像
+docker run -p 80:80 --privileged=true -v /home/nginx_design/conf/nginx.conf:/etc/nginx/nginx.conf -v /home/nginx_design/conf.d:/etc/nginx/conf.d -v /home/nginx_design/log:/var/log/nginx -v /home/nginx_design/html:/usr/share/nginx/html --name nginx -d 540a289bab6c
+
+```
+
+--privileged=true 配置了nginx.conf的外部挂载 之后可能导致，nginx不能启动，使用该命令；
+-v /home/nginx_design/conf.d:/etc/nginx/conf.d 挂载默认配置文件
+-v /home/nginx_design/conf/nginx.conf:/etc/nginx/nginx.conf挂载nginx.conf文件
+-v /home/nginx_design/log:/var/log/nginx 挂载日志目录
+-v /home/nginx_design/html:/usr/share/nginx/html 挂载html目录
+
+# docker安装rabbitMQ
+
+切换root用户：
+
+```bash
+docker pull rabbitmq:3-management //此条命令前提是配置好了国内阿里云加速镜像，否则会下载失败
+//查看镜像
+docker images
+//运行镜像（此处服务器我用的是华为云，需要手动将5672和15672端口加入到安全组中，否则run之后无法访问）
+docker run -d -p 5672:5672 -p 15672:15672 --name myrabbitmq 7601e834fa14（你的镜像ID）
+//查看镜像运行状态
+docker ps
+
+```
+
+# docker安装Tomcat
+
+由于tomcat 需要随时配置和上传war包，所有需要将文件夹挂载到外部文件系统
+
+分析：需要挂载的文件夹为：conf	logs  webapps
+
+```bash
+# copy 容器内文件夹
+[root@peiyanbing ~]# docker cp mytomcat:/usr/local/tomcat/conf /home/tomcat_design/
+[root@peiyanbing ~]# docker cp mytomcat:/usr/local/tomcat/logs /home/tomcat_design/
+[root@peiyanbing ~]# docker cp mytomcat:/usr/local/tomcat/webapps /home/tomcat_design/
+
+# 以下是本人挂载的tomcat
+sudo docker run -d -p 8080:8080 --privileged=true -v /home/tomcat_design/webapps:/usr/local/tomcat/webapps -v /home/tomcat_design/conf:/usr/local/tomcat/conf -v /home/tomcat_design/logs:/usr/local/tomcat/logs --restart=always tomcat
+
+
+```
+
+# docker安装MySQL
+
+```bash
+# 1. 下载Mysql的Docker镜像
+$ sudo docker pull mysql:latest
+# 2. 运行镜像，设置root账号初始密码（pei123），映射本地宿主机端口3306到Docker端口3306。测试过程没有挂载本地数据盘
+$ sudo docker run -it --name mysql -e MYSQL_ROOT_PASSWORD=pei123 -p 3306:3306 -d mysql
+# 3. 查看已运行的容器
+$ sudo docker ps -a
+# 4. 进入mysql容器
+$ sudo docker exec -it mysql bash
+# 5. 在容器内登陆Mysql
+root@93ca9e1d03cd:/# mysql -uroot -ppei123
+# 6. 查看用户信息
+mysql> select host,user,plugin,authentication_string from mysql.user;
+##  备注：host为 % 表示不限制ip   localhost表示本机使用    plugin非mysql_native_password 则需要修改密码
+mysql> ALTER user 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'pei123';
+mysql> FLUSH PRIVILEGES;
+# 7、退出MySQL，退出容器
+mysql> exit;
+# ctrl+d 退出容器且关闭, docker ps 查看无
+# ctrl+p+q 退出容器但不关闭, docker ps 查看有
+
+
+
+
+######  docker 安装MySQL 5.7（多实例）
+docker run --name mysql3307 -p 3307:3306 --privileged=true -ti -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=enjoy -e MYSQL_USER=user -e MYSQL_PASSWORD=pass -v /opt/module/mysql/docker-data/3307/conf:/etc/mysql/conf.d -v /opt/module/mysql/docker-data/3307/data/:/var/lib/mysql -v /opt/module/mysql/docker-data/3307/logs/:/var/log/mysql -d mysql:5.7
+
+docker run --name mysql3308 -p 3308:3306 --privileged=true -ti -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=enjoy -e MYSQL_USER=user -e MYSQL_PASSWORD=pass -v /opt/module/mysql/docker-data/3308/conf:/etc/mysql/conf.d -v /opt/module/mysql/docker-data/3308/data/:/var/lib/mysql -v /opt/module/mysql/docker-data/3308/logs/:/var/log/mysql -d mysql:5.7
+
+```
+
+# docker安装ElasticSearch
+
+开启端口9200、9300
+
+```bash
+docker run --name elasticsearch -d -p 9200:9200 -p 9300:9300 elasticsearch
+```
+
+# docker安装Zookeeper
+
+```shell
+sudo docker pull zookeeper
+
+mkdir -p /usr/local/zookeeper/conf
+mkdir -p /usr/local/zookeeper/data
+cd /usr/local/zookeeper/conf
+touch zoo.cfg
+vi zoo.cfg
+
+#单机主机上zoo.cfg的配置：
+########
+clientPort=2181
+dataDir=/data
+dataLogDir=/data/log
+tickTime=2000
+initLimit=5
+syncLimit=2
+autopurge.snapRetainCount=3
+autopurge.purgeInterval=0
+maxClientCnxns=60
+########
+
+
+sudo docker run -d --name zookeeper2181 -p 2181:2181 --privileged=true -v /usr/local/zookeeper/data:/data -v /usr/local/zookeeper/conf:/conf zookeeper
+
+sudo docker exec -it zookeeper2181 /bin/bash
+进入容器后：
+root@e83dc105e4ce:/apache-zookeeper-3.5.6-bin# pwd
+/apache-zookeeper-3.5.6-bin
+root@e83dc105e4ce:/apache-zookeeper-3.5.6-bin# zkServer.sh status
+ZooKeeper JMX enabled by default
+Using config: /conf/zoo.cfg
+Client port found: 2181. Client address: localhost.
+Mode: standalone
+root@e83dc105e4ce:/apache-zookeeper-3.5.6-bin#
+```
+
